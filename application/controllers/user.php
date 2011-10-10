@@ -20,24 +20,32 @@ class User extends CI_Controller {
     public function index()
     {
 
-       //$data['main_content_view'] = 'user/login_form.php';
-       //$this->load->view('default', $data);
+        //$data['main_content_view'] = 'user/login_form.php';
+        //$this->load->view('default', $data);
 
     }
 
 
     public function login() {
-        //$tmp_data['menu_data_array'] = $this->load->default_>_generate_menu_data();
-        //$this->data['main_menu_view'] = $this->load->view ('common/create_table_main_menu', $tmp_data, TRUE);
 
-
+        /* move generate menu to a helper*/
+        //$tmp_data['menu_data_array'] = $this->default_page->generate_menu_data();
+        $this->data['main_menu_view'] = $this->load->view ('common/create_table_main_menu', $tmp_data, TRUE);
         $data['header'] = $this->load->view('common/header', '', TRUE);
         $data['footer'] = $this->load->view('common/footer', '', TRUE);
-        //$data['main_menu_view'] = $this->load->view ('common/create_table_main_menu', $tmp_data, TRUE);
         $data['main_content_view'] = $this->load->view('user/login_form','', TRUE);
         $this->load->view('default', $data);
+        //redirect('default_page', $data);
 
     }
+
+
+    public function logout()
+    {
+        $this->session->sess_destroy();
+        redirect('default_page');
+    }
+
 
     public function validate_credentials ()  {
 
@@ -52,13 +60,16 @@ class User extends CI_Controller {
             );
 
             $this->session->set_userdata($data);
-            echo "logged in";
-            // redirect('default_page');
+            //echo "logged in " . $data['username'];
+            redirect('default_page');
         }
 
         else {
-            echo "feeel";
+            //echo "feeel";
             //$this->load->view('default');
+            //$this->login();
+            redirect('default_page');
+
         }
 
     }
@@ -74,8 +85,8 @@ class User extends CI_Controller {
 
     public function create_user(){
 
-        $this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[6]');
-        $this->form_validation->set_rules('user_email', 'User email', 'trim|required|valid_email');
+        $this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[6]|callback_unique_username');
+        $this->form_validation->set_rules('user_email', 'E-mail address', 'trim|required|valid_email|callback_unique_user_email');
         $this->form_validation->set_rules('user_password', 'User password', 'trim|required|min_length[6]|max_length[10]');
         $this->form_validation->set_rules('user_password_same', 'Re-type password', 'trim|required|matches[user_password]');
 
@@ -90,12 +101,42 @@ class User extends CI_Controller {
                 $data['footer'] = $this->load->view('common/footer', '', TRUE);
                 $this->load->view('default', $data);
             }
-         else {
-             $this->signup();
-         }
+            else {
+                $this->signup();
+            }
 
         }
     }
+
+
+    public function unique_username($str){
+        $this->load->model('membership');
+        $username =  $this->membership->get_username($str);
+        if ($username == FALSE)
+        {
+            $this->form_validation->set_message('unique_username', 'That %s is already taken, please choose another');
+            return FALSE;
+        }
+        else
+        {
+            return TRUE;
+        }
+    }
+
+    public function unique_user_email($str){
+        $this->load->model('membership');
+        $user_email =  $this->membership->get_user_email($str);
+        if ($user_email == FALSE)
+        {
+            $this->form_validation->set_message('unique_user_email', '%s is already taken, please choose another');
+            return FALSE;
+        }
+        else
+        {
+            return TRUE;
+        }
+    }
+
 }
 
 /* End of file default.php */

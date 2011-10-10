@@ -18,12 +18,9 @@ class Membership extends CI_model {
         if($query->num_rows == 1){
             return true;
         }
-
-        
-
     }
 
-    function create_user() {
+    public function create_user() {
 
         $new_member_insert_data = array (
 
@@ -35,8 +32,31 @@ class Membership extends CI_model {
 
         $insert = $this->db->insert('users', $new_member_insert_data);
         return $insert;
-    } 
+    }
 
+    public function get_username($username = NULL) {
+
+        $this->db->where('username', $username);
+        $query = $this->db->get('users');
+
+        if ($query->num_rows() == 0 ){
+            return true;
+        }
+        return false;
+
+    }
+
+    public function get_user_email($user_email = NULL) {
+
+        $this->db->where('user_email', $user_email);
+        $query = $this->db->get('users');
+
+        if ($query->num_rows() == 0 ){
+            return true;
+        }
+        return false;
+
+    }
 
 
 }

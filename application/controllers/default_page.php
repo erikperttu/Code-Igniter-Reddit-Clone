@@ -41,7 +41,7 @@ class Default_page extends CI_Controller {
         $disptext  = "Location stuff happens in here somewhere.";
 
 
-        $tmp_data['menu_data_array'] = $this->_generate_menu_data();
+        $tmp_data['menu_data_array'] = $this->generate_menu_data();
         $this->data['main_menu_view'] = $this->load->view ('common/create_table_main_menu', $tmp_data, TRUE);
         $this->data['header'] = $this->load->view('common/header', '', TRUE);
         $this->data['main_content_view'] = $disptext;
@@ -52,21 +52,23 @@ class Default_page extends CI_Controller {
 
     public function is_logged_in(){
 
-                        /*'username' => $this->input->post('username'),
-                'is_logged_in' => true */
+        /*'username' => $this->input->post('username'),
+      'is_logged_in' => true*/
 
 
         $is_logged_in = $this->session->userdata('is_logged_in');
         if(!isset($is_logged_in) | $is_logged_in != TRUE){
-            
-            echo "not logged in durr";
-            die();
+
+
+            $this->generate_menu_data();
+            //echo "not logged in durr";
+            //die();
         }
     }
 
 
 
-    private function  _generate_menu_data ()  {
+    public function  generate_menu_data ()  {
         $menu_data_array = array (
             "Lobby" => array (
                 "Front page"              => "meta/lobby",
@@ -78,26 +80,39 @@ class Default_page extends CI_Controller {
             ));
 
 
-        $admin_menu_data_array = array (
+        /*$admin_menu_data_array = array (
             "Admin Stuff" => array (
                 "Log analysis"           => "admin/activity",
                 "Recent changes"         => "admin/changes",
                 "User management"        => "admin/users",
             ),
-        );
+        );*/
 
         /// If we're logged in, we get an extra menu item under People
-        if ($this->session->userdata('login_name'))
+
+        $is_logged_in = $this->session->userdata('is_logged_in');
+        if(isset($is_logged_in) | $is_logged_in = TRUE){
+
+            $menu_data_array['User info'] =
+
+             array (
+                "Username" => $this->session->userdata('username')
+                                        //'username' => $this->input->post('username'),
+
+        );
+
+        }
+        /*if ($this->session->userdata('login_name'))
             $menu_data_array["People"]["My details"] = "people/view/".
-                                                       $this->session->userdata('login_name');
+                                                       $this->session->userdata('login_name');*/
 
         /// If we're admin, we get the special menu additions!
         /// (We merge, rather than a straight insert, as one day the admin menu
         /// additions may interweave with the user ones above.)
-        if ($this->session->userdata('admin'))  {
+        /*if ($this->session->userdata('admin'))  {
             $admin_menu_array = array_merge_recursive ( $admin_menu_data_array , $menu_data_array );
             return ($admin_menu_array);
-        }
+        }*/
 
         /// Otherwise, the boring ol' menu gets delivered.
 
