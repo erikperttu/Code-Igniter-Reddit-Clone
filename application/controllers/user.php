@@ -30,7 +30,8 @@ class User extends CI_Controller {
 
         /* move generate menu to a helper*/
         //$tmp_data['menu_data_array'] = $this->default_page->generate_menu_data();
-        $this->data['main_menu_view'] = $this->load->view ('common/create_table_main_menu', $tmp_data, TRUE);
+        $menu_data['menu_data_array'] = generate_menu_data();   
+        $data['main_menu_view'] = $this->load->view ('common/create_table_main_menu', $menu_data, TRUE);
         $data['header'] = $this->load->view('common/header', '', TRUE);
         $data['footer'] = $this->load->view('common/footer', '', TRUE);
         $data['main_content_view'] = $this->load->view('user/login_form','', TRUE);
@@ -52,10 +53,10 @@ class User extends CI_Controller {
         $this->load->model('membership');
         $query = $this->membership->validate();
 
-        if($query == true) {
+        if($query == TRUE) {
             $data = array(
                 'username' => $this->input->post('username'),
-                'is_logged_in' => true
+                'is_logged_in' => TRUE
                 //'user_password' => $this->input->post('user_password')
             );
 
@@ -78,7 +79,8 @@ class User extends CI_Controller {
 
         $data['header'] = $this->load->view('common/header', '', TRUE);
         $data['footer'] = $this->load->view('common/footer', '', TRUE);
-        //$data['main_menu_view'] = $this->load->view ('common/create_table_main_menu', $tmp_data, TRUE);
+        $menu_data['menu_data_array'] = generate_menu_data();
+        $data['main_menu_view'] = $this->load->view ('common/create_table_main_menu', $menu_data, TRUE);
         $data['main_content_view'] = $this->load->view('user/register_form','', TRUE);
         $this->load->view('default', $data);
     }
