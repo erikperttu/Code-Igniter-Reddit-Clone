@@ -22,8 +22,11 @@
     </div>
     <div id="div_torso_wrapper">
 
+        <div id="div_user_menu">
+            <?php echo $user_menu_view;?>
+        </div>
         <div id="div_navigation_menu">
-            <?php echo $main_menu_view;?>
+            <?php echo $navigation_menu_view;?>
         </div>
         <div id="div_main_content">
             <?php echo $main_content_view;  ?>

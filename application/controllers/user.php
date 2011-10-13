@@ -19,20 +19,12 @@ class User extends CI_Controller {
      */
     public function index()
     {
-
-        //$data['main_content_view'] = 'user/login_form.php';
-        //$this->load->view('default', $data);
-
     }
 
-
     public function login() {
-        $menu_data['menu_data_array'] = generate_menu_data();
-        $data['main_menu_view'] = $this->load->view ('common/create_table_main_menu', $menu_data, TRUE);
-        $data['header'] = $this->load->view('common/header', '', TRUE);
-        $data['footer'] = $this->load->view('common/footer', '', TRUE);
+        $data = generate_content_data();
         $data['main_content_view'] = $this->load->view('user/login_form','', TRUE);
-        $this->load->view('default', $data);
+        $this->load->view ('default', $data);
     }
 
 
@@ -61,15 +53,10 @@ class User extends CI_Controller {
         else {
             redirect('default_page');
         }
-
     }
 
     public function signup() {
-
-        $data['header'] = $this->load->view('common/header', '', TRUE);
-        $data['footer'] = $this->load->view('common/footer', '', TRUE);
-        $menu_data['menu_data_array'] = generate_menu_data();
-        $data['main_menu_view'] = $this->load->view ('common/create_table_main_menu', $menu_data, TRUE);
+        $data = generate_content_data();
         $data['main_content_view'] = $this->load->view('user/register_form','', TRUE);
         $this->load->view('default', $data);
     }

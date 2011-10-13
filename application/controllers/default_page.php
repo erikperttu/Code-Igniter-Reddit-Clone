@@ -5,7 +5,7 @@ class Default_page extends CI_Controller {
     function __construct(){
 
         parent::__construct();
-        generate_menu_data();
+        generate_user_menu_data();
 
     }
 
@@ -38,12 +38,7 @@ class Default_page extends CI_Controller {
          * $string = $this->load->view('myfile', '', true);
          */
 
-        $disptext  = "Location stuff happens in here somewhere.";
-        $menu_data['menu_data_array'] = generate_menu_data();
-        $data['main_menu_view'] = $this->load->view ('common/create_table_main_menu', $menu_data, TRUE);
-        $data['header'] = $this->load->view('common/header', '', TRUE);
-        $data['main_content_view'] = $disptext;
-        $data['footer'] = $this->load->view('common/footer', '', TRUE);
+        $data = generate_content_data();
         $this->load->view ('default', $data);
 
     }

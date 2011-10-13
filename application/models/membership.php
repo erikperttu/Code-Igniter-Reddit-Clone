@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: emp-
- * Date: 10/6/11
- * Time: 4:37 PM
- * To change this template use File | Settings | File Templates.
- */
 
 class Membership extends CI_model {
 
