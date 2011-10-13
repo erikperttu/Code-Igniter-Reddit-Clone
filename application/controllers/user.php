@@ -27,17 +27,12 @@ class User extends CI_Controller {
 
 
     public function login() {
-
-        /* move generate menu to a helper*/
-        //$tmp_data['menu_data_array'] = $this->default_page->generate_menu_data();
-        $menu_data['menu_data_array'] = generate_menu_data();   
+        $menu_data['menu_data_array'] = generate_menu_data();
         $data['main_menu_view'] = $this->load->view ('common/create_table_main_menu', $menu_data, TRUE);
         $data['header'] = $this->load->view('common/header', '', TRUE);
         $data['footer'] = $this->load->view('common/footer', '', TRUE);
         $data['main_content_view'] = $this->load->view('user/login_form','', TRUE);
         $this->load->view('default', $data);
-        //redirect('default_page', $data);
-
     }
 
 
@@ -57,20 +52,14 @@ class User extends CI_Controller {
             $data = array(
                 'username' => $this->input->post('username'),
                 'is_logged_in' => TRUE
-                //'user_password' => $this->input->post('user_password')
             );
 
             $this->session->set_userdata($data);
-            //echo "logged in " . $data['username'];
             redirect('default_page');
         }
 
         else {
-            //echo "feeel";
-            //$this->load->view('default');
-            //$this->login();
             redirect('default_page');
-
         }
 
     }

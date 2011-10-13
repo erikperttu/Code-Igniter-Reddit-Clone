@@ -17,28 +17,18 @@
 <body>
 
 <div id="wrapper">
-
     <div id="header">
         <?php echo $header; ?>
     </div>
-
-    <div id="navigation">
-        <?php //$this->load->view('common/navigation'); ?>
-    </div>
-
     <div id="div_torso_wrapper">
 
         <div id="div_navigation_menu">
-            <?php echo $main_menu_view;
-            //var_dump($main_menu_view); ?>
+            <?php echo $main_menu_view;?>
         </div>
-
         <div id="div_main_content">
             <?php echo $main_content_view;  ?>
         </div>
-
     </div>
-
     <div id="footer">
         <?php echo $footer; ?>
     </div>

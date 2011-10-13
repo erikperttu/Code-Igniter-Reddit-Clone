@@ -48,14 +48,4 @@ class Default_page extends CI_Controller {
 
     }
 
-
-    /*public function login() {
-        $data['main_content_view'] = 'user/login_form.php';
-        $this->load->view('default', $data);
-
-    }*/
-
 }
-
-/* End of file default.php */
-/* Location: ./application/controllers/default.php */
