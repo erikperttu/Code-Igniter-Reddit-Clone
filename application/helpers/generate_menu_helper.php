@@ -11,6 +11,7 @@ function  generate_user_menu_data()  {
         $user_menu_data_array =
                 array (
                     "Username" => $CI->session->userdata('username'),
+                    "Create_new" => anchor('user/create_link_form', ' Create post '),
                     "Logout" => anchor('user/logout', ' Logout '),
                 );
     }

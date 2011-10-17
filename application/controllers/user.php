@@ -27,6 +27,12 @@ class User extends CI_Controller {
         $this->load->view ('default', $data);
     }
 
+    public function create_link_form() {
+        $data = generate_content_data();
+        $data['main_content_view'] = $this->load->view('user/create_link_form','', TRUE);
+        $this->load->view ('default', $data);
+    }
+
 
     public function logout()
     {
@@ -41,9 +47,11 @@ class User extends CI_Controller {
         $query = $this->membership->validate();
 
         if($query == TRUE) {
+            $user_id = $this->membership->get_user_id($this->input->post('username'));
             $data = array(
                 'username' => $this->input->post('username'),
-                'is_logged_in' => TRUE
+                'is_logged_in' => TRUE,
+                'user_id' => $user_id->user_id
             );
 
             $this->session->set_userdata($data);
@@ -54,6 +62,7 @@ class User extends CI_Controller {
             redirect('default_page');
         }
     }
+
 
     public function signup() {
         $data = generate_content_data();
@@ -114,6 +123,31 @@ class User extends CI_Controller {
             return TRUE;
         }
     }
+
+    public function create_link(){
+
+        $this->form_validation->set_rules('link', 'Link', 'required|min_length[5]');
+        $this->form_validation->set_rules('link_description', 'Link description', 'required|min_length_[10]');
+
+        if($this->form_validation->run() == FALSE) {
+            $this->create_link_form();
+        }
+        else {
+            $this->load->model('membership');
+            if($query = $this->membership->create_link()){
+                $data['main_content_view'] = $this->load->view('user/post_successful', '', TRUE);
+                $data['header'] = $this->load->view('common/header', '', TRUE);
+                $data['footer'] = $this->load->view('common/footer', '', TRUE);
+                $this->load->view('default', $data);
+            }
+            else {
+                $this->create_link_form();
+            }
+
+        }
+    }
+
+
 
 }
 
