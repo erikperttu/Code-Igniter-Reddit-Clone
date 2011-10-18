@@ -180,11 +180,11 @@ class CI_Typography {
 		// Convert quotes, elipsis, em-dashes, non-breaking spaces, and ampersands
 		$str = $this->format_characters($str);
 
-		// restore HTML comments
+		// restore HTML comments.php
 		for ($i = 0, $total = count($html_comments); $i < $total; $i++)
 		{
 			// remove surrounding paragraph tags, but only if there's an opening paragraph tag
-			// otherwise HTML comments at the ends of paragraphs will have the closing tag removed
+			// otherwise HTML comments.php at the ends of paragraphs will have the closing tag removed
 			// if '<p>{@HC1}' then replace <p>{@HC1}</p> with the comment, else replace only {@HC1} with the comment
 			$str = preg_replace('#(?(?=<p>\{@HC'.$i.'\})<p>\{@HC'.$i.'\}(\s*</p>)|\{@HC'.$i.'\})#s', $html_comments[$i], $str);
 		}

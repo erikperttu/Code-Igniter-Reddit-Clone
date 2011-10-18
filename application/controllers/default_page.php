@@ -43,4 +43,9 @@ class Default_page extends CI_Controller {
 
     }
 
+    /*public function get_comments(){
+        $data = generate_comment_data();
+        $this->load->view ('default', $data);
+    }*/
+
 }

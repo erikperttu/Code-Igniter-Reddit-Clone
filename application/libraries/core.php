@@ -31,17 +31,13 @@ class Core {
 
     public function index()
     {
-
         #load latest content
-
         $this->CI->load->model('content');
-
         $query = $this->CI->content->latest();
 
         if($query == TRUE) {
 
             foreach($query as $row){
-
 
                 $content[] =  array (
                     "Link_id" => $row->link_id,
@@ -49,31 +45,59 @@ class Core {
                     "Link_description" => $row->link_description,
                     "Link_rating" => $row->link_rating,
                     "Date_added" => $row->date_added,
+                    "Comments" => anchor('user/comments', ' Comments '),
                 );
 
-
-
             }
-
-            //var_dump($content);
-            //echo $content;
             return $content;
-            //var_dump($query);
-            
+
         }
 
         else {
-            //   redirect('default_page');
+                $content[] =  array (
+                    "for" => ' for ',
+                    "ever" => ' ever ',
+                    "alone" => ' alone ',
+                );
+            return $content;
         }
 
 
 
     }
 
+    public function get_comments_for_post(){
+        $this->CI->load->model('content');
+        $link_id = 1; //temp
+        $query = $this->CI->content->get_comments($link_id);
 
+        if($query == TRUE) {
+            foreach($query as $row){
+                $content[] =  array (
+                    "Comment_id" => $row->comment_id,
+                    "Comment_user" => $row->comment_user,
+                    "Comment_text" => $row->comment_text,
+                    "Comment_rating" => $row->comment_rating,
+                    "Date_added" => $row->date_added,
+                    "Comments" => anchor('user/reply', ' Reply '),
+                );
+
+            }
+            //return $content;
+            //echo $content;
+            var_dump($content);        }
+
+        else {
+               redirect('default_page');
+        }
+
+
+
+    }
     function generate_content_array() {
         //$navigation_menu_data_array = generate_navigation_menu_data();
         $content = $this->index();
+        //if (vad det nu är) $data
         $string = "";
         foreach ($content as $content_item) {
             foreach ($content_item as $content2) {

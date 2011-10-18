@@ -28,9 +28,14 @@ class User extends CI_Controller {
     }
 
     public function create_link_form() {
-        $data = generate_content_data();
-        $data['main_content_view'] = $this->load->view('user/create_link_form','', TRUE);
-        $this->load->view ('default', $data);
+        $is_logged_in = $this->session->userdata('is_logged_in');
+        if(isset($is_logged_in) || $is_logged_in == TRUE){
+            $data = generate_content_data();
+            $data['main_content_view'] = $this->load->view('user/create_link_form','', TRUE);
+            $this->load->view ('default', $data);
+        }if(!isset($is_logged_in) || $is_logged_in != TRUE){
+            redirect('default_page');
+        }
     }
 
 
@@ -83,9 +88,8 @@ class User extends CI_Controller {
         else {
             $this->load->model('membership');
             if($query = $this->membership->create_user()){
+                $data = generate_content_data();
                 $data['main_content_view'] = $this->load->view('user/created_user', '', TRUE);
-                $data['header'] = $this->load->view('common/header', '', TRUE);
-                $data['footer'] = $this->load->view('common/footer', '', TRUE);
                 $this->load->view('default', $data);
             }
             else {
@@ -135,10 +139,9 @@ class User extends CI_Controller {
         else {
             $this->load->model('membership');
             if($query = $this->membership->create_link()){
+                $data = generate_content_data();
                 $data['main_content_view'] = $this->load->view('user/post_successful', '', TRUE);
-                $data['header'] = $this->load->view('common/header', '', TRUE);
-                $data['footer'] = $this->load->view('common/footer', '', TRUE);
-                $this->load->view('default', $data);
+                $this->load->view ('default',$data);
             }
             else {
                 $this->create_link_form();
@@ -147,6 +150,12 @@ class User extends CI_Controller {
         }
     }
 
+
+    public function comments() {
+        $data = generate_content_data();
+        $data['main_content_view'] = $this->load->view('user/comments','', TRUE);
+        $this->load->view('default', $data);
+    }
 
 
 }

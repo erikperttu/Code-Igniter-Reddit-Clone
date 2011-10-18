@@ -7,7 +7,7 @@ function  generate_user_menu_data()  {
         $is_logged_in = TRUE;
     }
 
-    if(isset($is_logged_in) || $is_logged_in = TRUE){
+    if(isset($is_logged_in) || $is_logged_in == TRUE){
         $user_menu_data_array =
                 array (
                     "Username" => $CI->session->userdata('username'),
