@@ -150,10 +150,9 @@ class User extends CI_Controller {
         }
     }
 
-
     public function comments() {
         $data = generate_content_data();
-        $data['main_content_view'] = $this->load->view('user/comments','', TRUE);
+        $data['main_content_view'] = $this->core->generate_content_array('comments');
         $this->load->view('default', $data);
     }
 

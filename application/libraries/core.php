@@ -39,30 +39,29 @@ class Core {
 
             foreach($query as $row){
 
-                $content[] =  array (
-                    "Link_id" => $row->link_id,
-                    "Link" => $row->link,
-                    "Link_description" => $row->link_description,
-                    "Link_rating" => $row->link_rating,
-                    "Date_added" => $row->date_added,
-                    "Comments" => anchor('user/comments', ' Comments '),
+
+                $content[] =  array ($row->link_id,
+                                   $row->link,
+                                   $row->link_description,
+                                   $row->link_rating,
+                                   $row->date_added,
+                                   anchor('user/comments', ' Comments '),
                 );
 
             }
+            //var_dump($content);
             return $content;
 
         }
 
         else {
-                $content[] =  array (
-                    "for" => ' for ',
-                    "ever" => ' ever ',
-                    "alone" => ' alone ',
-                );
+            $content =  array (
+               ' for ',
+               ' ever ',
+               ' alone ',
+            );
             return $content;
         }
-
-
 
     }
 
@@ -73,40 +72,76 @@ class Core {
 
         if($query == TRUE) {
             foreach($query as $row){
-                $content[] =  array (
-                    "Comment_id" => $row->comment_id,
-                    "Comment_user" => $row->comment_user,
-                    "Comment_text" => $row->comment_text,
-                    "Comment_rating" => $row->comment_rating,
-                    "Date_added" => $row->date_added,
-                    "Comments" => anchor('user/reply', ' Reply '),
+                $content=  array (
+                    $row->comment_id,
+                    $row->comment_user,
+                    $row->comment_text,
+                    $row->comment_rating,
+                    $row->date_added,
+                    anchor('user/reply', ' Reply '),
                 );
 
             }
-            //return $content;
-            //echo $content;
-            var_dump($content);        }
+            return $content;
+
+        }
 
         else {
-               redirect('default_page');
+            $content =  array (
+                " No one has commented yet :( ",
+                anchor('user/add_comment', ' Add comment '),
+            );
+            return $content;
         }
 
 
 
     }
-    function generate_content_array() {
-        //$navigation_menu_data_array = generate_navigation_menu_data();
-        $content = $this->index();
-        //if (vad det nu är) $data
-        $string = "";
-        foreach ($content as $content_item) {
-            foreach ($content_item as $content2) {
-                $string .= $content2;
-            }
+    function generate_content_array($data) {
+        if ($data == 'main'){
+
+            $content = $this->index();
+            $this->format_main_content($content);
         }
-        return $string;
+        if ($data == 'comments'){
+
+            $content = $this->get_comments_for_post();
+            $this->format_comments($content);
+
+
+        }
     }
 
 
+
+    function format_main_content($aContent = array()) {
+//        var_dump($aContent);
+        $html = "";
+        foreach($aContent as $html){
+        @list($iLinkID, $sLink, $sDescription, $iRating, $sDateAdded, $sComments) = $aContent;
+        $html .= "$iLinkID";
+        $html .= "$iRating";
+        $html .= "$sDateAdded";
+        $html .= "<h1> $sLink </h1>";
+        $html .= "<p>$sDescription</p>";
+        $html .= "$sComments";
+        }
+        echo $html;
+
+    }
+
+    function format_comments($aContent = array()) {
+
+        $html = "";
+        @list($iCommentD, $sCommentUser, $sCommentText, $iCommentRating, $sDateAdded, $sReply) = $aContent;
+
+        $html .= "$iCommentD";
+        $html .= "$sDateAdded";
+        $html .= "$iCommentRating";
+        $html .= "<h1> $sCommentUser </h1>";
+        $html .= "<p>$sCommentText</p>";
+        $html .= "$sReply";
+        echo $html;
+    }
 
 }
