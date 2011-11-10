@@ -41,11 +41,11 @@ class Core {
 
 
                 $content[] =  array ($row->link_id,
-                                   $row->link,
-                                   $row->link_description,
-                                   $row->link_rating,
-                                   $row->date_added,
-                                   anchor('user/comments', ' Comments '),
+                                     $row->link,
+                                     $row->link_description,
+                                     $row->link_rating,
+                                     $row->date_added,
+                                     anchor('user/comments', ' Comments '),
                 );
 
             }
@@ -56,9 +56,9 @@ class Core {
 
         else {
             $content =  array (
-               ' for ',
-               ' ever ',
-               ' alone ',
+                ' for ',
+                ' ever ',
+                ' alone ',
             );
             return $content;
         }
@@ -115,20 +115,26 @@ class Core {
 
 
     function format_main_content($aContent = array()) {
-//        var_dump($aContent);
         $html = "";
-        foreach($aContent as $html){
-        @list($iLinkID, $sLink, $sDescription, $iRating, $sDateAdded, $sComments) = $aContent;
-        $html .= "$iLinkID";
-        $html .= "$iRating";
-        $html .= "$sDateAdded";
-        $html .= "<h1> $sLink </h1>";
-        $html .= "<p>$sDescription</p>";
-        $html .= "$sComments";
+
+        for($i=0;$i<count($aContent);$i++) {
+
+                foreach($aContent[$i] as $foo){
+                 var_dump($aContent[$i]);
+                        @list($iLinkID, $sLink, $sDescription, $iRating, $sDateAdded, $sComments) = $foo;
+                        $html .= "$iLinkID<br/>";
+                        $html .= "$iRating<br/>";
+                        $html .= "$sDateAdded";
+                        $html .= "<h1> $sLink </h1>";
+                        $html .= "<p>$sDescription</p>";
+                        $html .= "$sComments<br/>";
+                }
         }
         echo $html;
 
     }
+
+
 
     function format_comments($aContent = array()) {
 
